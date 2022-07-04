@@ -1,25 +1,39 @@
 import propsToString from "../utils/propsToString";
 
 export default function Table(props, data) {
-  console.log(data);
   const properties = propsToString(props);
+
+  // dynamically get table headers
+  const getHeaders = () =>
+    Object.keys(data[0]).reduce(
+      (previousVal, key) => (previousVal += `<th>${key}</th>`),
+      ""
+    );
+
+  // dynamically get table rows
+  const getRows = () =>
+    data.reduce(
+      // map table rows
+      (previousData, rowData) =>
+        (previousData += `<tr> 
+      <td>checkbox</td> 
+      ${Object.entries(rowData).reduce(
+        // map table data
+        (previousVal, [key, value]) =>
+          (previousVal += `<td class=${key}>${value}</td>`),
+        ""
+      )}
+      </tr>`),
+      ""
+    );
 
   return `<table ${properties}>
     <thead>
       <th>x</th>
-      ${Object.keys(data[0]).map((key) => `<th>${key}</th>`)}
+      ${getHeaders()}
     </thead>
     <tbody>
-        ${data.slice(0, 2).map(
-          (rowData) => `
-          <tr>
-            <td>checkbox</td>
-            ${Object.entries(rowData).map(
-              ([key, value]) => `<td class=${key}>${value}</td>`
-            )}
-          </tr>
-        `
-        )}
+        ${getRows()}
     <tbody>
   </table>`;
 }
