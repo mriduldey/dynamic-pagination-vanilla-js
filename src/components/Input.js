@@ -1,10 +1,7 @@
+import propsToString from "../utils/propsToString";
+
 export default function Input(props) {
-  const properties = Object.entries(props)
-    .filter(([, propValue]) => Boolean(propValue))
-    .reduce(
-      (initialValue, [key, value]) => (initialValue += `${key}=${value} `),
-      ""
-    );
+  const properties = propsToString(props);
 
   return `<input ${properties} />`;
 }
