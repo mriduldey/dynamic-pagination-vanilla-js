@@ -5,24 +5,31 @@ export default function Table(props, data) {
 
   // dynamically get table headers
   const getHeaders = () =>
-    Object.keys(data[0]).reduce(
-      (previousVal, key) => (previousVal += `<th>${key}</th>`),
-      ""
-    );
+    Object.keys(data && data.length && data[0])
+      .reduce(
+        (previousVal, key) => (previousVal += `<th>${key.toUpperCase()}</th>`),
+        ""
+      )
+      .concat("<th>ACTIONS</th>");
 
   // dynamically get table rows
   const getRows = () =>
     data.reduce(
       // map table rows
       (previousData, rowData) =>
-        (previousData += `<tr> 
-      <td>checkbox</td> 
-      ${Object.entries(rowData).reduce(
-        // map table data
-        (previousVal, [key, value]) =>
-          (previousVal += `<td class=${key}>${value}</td>`),
-        ""
-      )}
+        (previousData += `
+      <tr> 
+        <td>checkbox</td> 
+        ${Object.entries(rowData).reduce(
+          // map table data
+          (previousVal, [key, value]) =>
+            (previousVal += `<td class=${key}>${value}</td>`),
+          ""
+        )}
+        <td>
+          <button>Edit</button>
+          <button>Del</button>
+        </td>
       </tr>`),
       ""
     );
